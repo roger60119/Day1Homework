@@ -16,18 +16,17 @@ namespace Day1Homework
         /// <param name="amount">數量</param>
         /// <param name="column">欄位</param>
         /// <returns></returns>
-        public int[] Sum<T>(IEnumerable<T> list, int amount, string column)
+        public IEnumerable<int> Sum<T>(IEnumerable<T> list, int amount, string column)
         {
-            int count = list.Count() % amount == 0 ? list.Count() / amount : list.Count() / amount + 1;
-            int[] valueSet = new int[count];
+            var count = list.Count() % amount == 0 ? list.Count() / amount : list.Count() / amount + 1;
 
             for (int i = 0; i < count; i++)
             {
-                valueSet[i] = list.Skip(amount * i).Take(amount).Sum(
-                    x => Convert.ToInt32(x.GetType().GetProperty(column).GetValue(x)));
+                yield return 
+                    list.Skip(amount * i)
+                    .Take(amount)
+                    .Sum(x => Convert.ToInt32(x.GetType().GetProperty(column).GetValue(x)));
             }
-
-            return valueSet;
         }
     }
 }

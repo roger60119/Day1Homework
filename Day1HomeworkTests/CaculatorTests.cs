@@ -12,10 +12,37 @@ namespace Day1Homework.Tests
     public class CaculatorTests
     {
         [TestMethod()]
-        public void MainTest()
+        public void 分頁取值_每3筆一組_取Cost加總_應得到_6_15_24_21()
+        {
+            var caculator = new Caculator();
+            var products = this.GetProducts();
+
+            var expectedAmount = 3;
+            var expectedColumn = "Cost";
+            var expected = new List<int> { 6, 15, 24, 21 };
+
+            var actual = caculator.Sum(products, expectedAmount, expectedColumn).ToList();
+
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void 分頁取值_每4筆一組_取Revenue加總_應得到_50_66_60()
         {
             var Caculator = new Caculator();
+            var products = this.GetProducts();
 
+            var expectedAmount = 4;
+            var expectedColumn = "Revenue";
+            var expected = new List<int> { 50, 66, 60 };
+
+            var actual = Caculator.Sum(products, expectedAmount, expectedColumn).ToList();
+
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        public IEnumerable<Product> GetProducts()
+        {
             var products = new List<Product>
             {
                 new Product {Id = 1, Cost = 1, Revenue = 11, SellPrice = 21 },
@@ -31,17 +58,7 @@ namespace Day1Homework.Tests
                 new Product {Id = 11, Cost = 11, Revenue = 21, SellPrice = 31 }
             };
 
-            int expectedAmount = 3;
-            string expectedColumn = "Cost";
-            int[] expected = { 6, 15, 24, 21 };
-
-            //int expectedAmount = 4;
-            //string expectedColumn = "Revenue";
-            //int[] expected = { 50, 66, 60 };
-
-            int[] actual = Caculator.Sum(products, expectedAmount, expectedColumn);
-
-            CollectionAssert.AreEqual(expected, actual);
+            return products;
         }
     }
 }
